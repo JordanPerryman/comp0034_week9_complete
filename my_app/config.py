@@ -25,5 +25,5 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     ENV = 'testing'
     TESTING = True
-    SQLALCHEMY_ECHO = True
+    # SQLALCHEMY_ECHO = True
     WTF_CSRF_ENABLED = False

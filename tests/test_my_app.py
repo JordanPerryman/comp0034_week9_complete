@@ -41,3 +41,36 @@ class TestMyApp:
         assert count2 - count == 1
         assert response.status_code == 200
         assert b'Person' in response.data
+
+
+# Try and write tests for the following:
+
+"""
+GIVEN a User has been created
+WHEN the user logs in with the wrong email address
+THEN then an error message should be displayed on the login form ('No account found with that email address.')
+"""
+
+'''
+GIVEN a User has been created
+WHEN the user logs in with the wrong password
+THEN then an error message should be displayed on the login form ('Incorrect password.')
+'''
+
+'''
+GIVEN a User is logged in and selected Remember Me
+WHEN they close the browser and re-open it within 60 seconds
+THEN they should remain logged in
+'''
+
+'''
+GIVEN a User is logged in and selected Remember Me
+WHEN they close the browser and re-open after 60 seconds
+THEN they should be required to login again to access any protected pages (such as community home)
+'''
+
+'''
+GIVEN a User logged out
+WHEN they access the navigation bar
+THEN there should be an option to login in
+'''

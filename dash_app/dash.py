@@ -18,7 +18,6 @@ fig1 = rc.create_chart(area)
 rcb = RecyclingBarChart(data)
 fig2 = rcb.create_chart('2018/19')
 
-
 # Create a Dash app
 def init_dashboard(flask_app):
     """Create a Plotly Dash dashboard."""

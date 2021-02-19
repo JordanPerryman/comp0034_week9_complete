@@ -1,7 +1,10 @@
+import multiprocessing
 from pathlib import Path
-
 import pytest
 import pandas as pd
+from selenium import webdriver
+from selenium.webdriver import ChromeOptions
+
 from my_app import create_app
 from my_app import db as _db
 from my_app.config import TestingConfig
@@ -69,3 +72,62 @@ def user(db):
     db.session.add(user)
     db.session.commit()
     return user
+
+
+@pytest.fixture(scope='function')
+def user_with_profile(db):
+    """ Creates a user with a profile with a username and bio """
+    from my_app.models import User, Profile
+    user = User(firstname='Person', lastname='Three', email='person3@people.com')
+    user.profile = Profile(username='person3',
+                           bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac tempor metus. "
+                               "Aenean mattis, tortor fringilla iaculis pharetra, dui justo imperdiet turpis, "
+                               "at faucibus risus eros vitae dui. Nam finibus, nibh eu imperdiet feugiat, nisl lacus "
+                               "porta tellus, a tincidunt nibh enim in urna. Aliquam commodo volutpat ligula at "
+                               "tempor. In risus mauris, commodo id mi non, feugiat convallis ex. Nam non odio dolor. "
+                               "Cras egestas mollis feugiat. Morbi ornare laoreet varius. Pellentesque fringilla "
+                               "convallis risus, sit amet laoreet metus interdum et.")
+    user.set_password('password3')
+    db.session.add(user)
+    db.session.commit()
+    return user
+
+
+@pytest.fixture(scope='class')
+def chrome_driver(request):
+    """ Fixture for selenium webdriver with options to support running in GitHub actions"""
+    options = ChromeOptions()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    #options.add_argument("--allow-insecure-localhost")
+    options.add_argument("--disable-gpu")
+    #options.set_capability('acceptInsecureCerts', True)
+    options.add_argument("--window-size=1920,1080")
+    chrome_driver = webdriver.Chrome(options=options)
+    request.cls.driver = chrome_driver
+    yield
+    chrome_driver.close()
+
+
+@pytest.fixture(scope='class')
+def selenium(app):
+    """
+    Fixture to run the Flask app
+    A better alternative would be to use flask-testing live_server
+    """
+    process = multiprocessing.Process(target=app.run, args=())
+    process.start()
+    yield process
+    process.terminate()
+
+
+def login(client, email, password):
+    return client.post('/login/', data=dict(
+        email=email,
+        password=password
+    ), follow_redirects=True)
+
+
+def logout(client):
+    return client.get('/logout/', follow_redirects=True)
