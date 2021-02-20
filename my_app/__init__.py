@@ -40,7 +40,8 @@ def create_app(config_classname):
         print(os.getcwd())  # the absolute path of the working directory
 
         # Add the local authority data to the database (this is a workaround you don't need this for your coursework!)
-        csv_file = Path(__file__).parent.parent.joinpath("data").joinpath("household_recycling.csv")
+        csv_file = Path.root.join('data/household_recycling.csv')
+        #csv_file = Path(__file__).parent.parent.joinpath("data").joinpath("household_recycling.csv")
         la_data = pd.read_csv(csv_file, usecols=['Code', 'Area'])
         la_data.drop_duplicates(inplace=True)
         la_data.set_index('Code', inplace=True)
