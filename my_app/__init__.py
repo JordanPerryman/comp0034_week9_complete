@@ -36,7 +36,8 @@ def create_app(config_classname):
         # db.Model.metadata.reflect(bind=db.engine)
 
         # Add the local authority data to the database (this is a workaround you don't need this for your coursework!)
-        csv_file = Path(__file__).parent.parent / 'data' / 'household_recycling.csv'
+        from flask import current_app
+        csv_file = Path(current_app.root_path).parent.joinpath('data/household_recycling.csv')
         la_data = pd.read_csv(csv_file, usecols=['Code', 'Area'])
         la_data.drop_duplicates(inplace=True)
         la_data.set_index('Code', inplace=True)
