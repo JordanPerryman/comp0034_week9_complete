@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import pandas as pd
 from flask import Flask
@@ -33,6 +34,10 @@ def create_app(config_classname):
 
         # Uncomment the following if you want to experiment with reflection
         # db.Model.metadata.reflect(bind=db.engine)
+        print('abs')
+        print(os.path.abspath(__file__))  # the absolute path of the current executed script file
+        print('cwd')
+        print(os.getcwd())  # the absolute path of the working directory
 
         # Add the local authority data to the database (this is a workaround you don't need this for your coursework!)
         csv_file = Path(__file__).parent.parent.joinpath("data").joinpath("household_recycling.csv")
