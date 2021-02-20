@@ -100,9 +100,7 @@ def chrome_driver(request):
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    #options.add_argument("--allow-insecure-localhost")
     options.add_argument("--disable-gpu")
-    #options.set_capability('acceptInsecureCerts', True)
     options.add_argument("--window-size=1920,1080")
     chrome_driver = webdriver.Chrome(options=options)
     request.cls.driver = chrome_driver
@@ -111,10 +109,10 @@ def chrome_driver(request):
 
 
 @pytest.fixture(scope='class')
-def selenium(app):
+def run_app(app):
     """
     Fixture to run the Flask app
-    A better alternative would be to use flask-testing live_server
+    A better alternative may be to use pytest-flask live_server
     """
     process = multiprocessing.Process(target=app.run, args=())
     process.start()
