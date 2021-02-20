@@ -34,7 +34,9 @@ def db(app):
     _db.app = app
     _db.create_all()
     # Add the local authority data to the database (this is a workaround you don't need this for your coursework!)
-    csv_file = Path(__file__).parent.parent.joinpath("data").joinpath("household_recycling.csv")
+    data_path = app.config['DATA_PATH']
+    csv_file = Path(data_path).joinpath('household_recycling.csv')
+    #csv_file = Path(__file__).parent.parent.joinpath("data").joinpath("household_recycling.csv")
     df = pd.read_csv(csv_file, usecols=['Code', 'Area'])
     df.drop_duplicates(inplace=True)
     df.set_index('Code', inplace=True)
@@ -101,7 +103,8 @@ def chrome_driver(request):
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920,1080")
+    # options.add_argument("--window-size=1920,1080")
+    options.add_argument("--window-size=1200x600")
     chrome_driver = webdriver.Chrome(options=options)
     request.cls.driver = chrome_driver
     yield
