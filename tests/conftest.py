@@ -34,7 +34,7 @@ def db(app):
     _db.app = app
     _db.create_all()
     # Add the local authority data to the database (this is a workaround you don't need this for your coursework!)
-    csv_file = Path(__file__).parent.parent.joinpath("data/household_recycling.csv")
+    csv_file = Path(__file__).parent.parent.joinpath("data").joinpath("household_recycling.csv")
     df = pd.read_csv(csv_file, usecols=['Code', 'Area'])
     df.drop_duplicates(inplace=True)
     df.set_index('Code', inplace=True)
