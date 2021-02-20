@@ -18,7 +18,7 @@ class RecyclingData:
         self.get_data()
 
     def get_data(self):
-        data_folder = Path(__file__).parent.joinpath('data')
+        data_folder = Path(__file__).parent.parent.joinpath('data')
         csv_file = 'household_recycling.csv'
         self.recycling = pd.read_csv(data_folder / csv_file)
         self.area_list = self.recycling["Area"].unique().tolist()
