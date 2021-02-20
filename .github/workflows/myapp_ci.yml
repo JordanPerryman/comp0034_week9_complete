@@ -33,7 +33,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest --verbose --cov=my_app --ignore=tests_unittest/ --ignore=test_my_app_browser.py
+        pytest --verbose --cov=my_app --ignore=tests_unittest/ --ignore=tests/test_my_app_browser.py
         cd my_app
         python3 app.py
         sleep 5
