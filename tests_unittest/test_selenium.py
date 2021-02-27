@@ -15,12 +15,19 @@ class TestBase(LiveServerTestCase):
 
     def create_app(self):
         app = create_app(config.TestingConfig)
-        app.config['LIVESERVER_PORT'] = 8349
+        app.config['LIVESERVER_PORT'] = 8943
         return app
 
     def setUp(self):
         """ Creates the chrome driver and adds tables to the database plus the country data """
-        self.driver = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--window-size=1200x600")
+        self.driver = webdriver.Chrome(options=options)
+        self.driver.create_options()
         self.driver.get(self.get_server_url())
 
     def tearDown(self):
