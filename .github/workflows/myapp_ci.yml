@@ -34,11 +34,8 @@ jobs:
     - name: Test with unittest and coverage        
       run: |
         pip install coverage
-        coverage run -m unittest discover tests_unittest
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        coverageCommand: coverage
+        coverage run -m --source=my_app unittest discover tests_unittest
+        coverage report
     - name: Test with pytest (excluding Selenium)
       run: |
         pytest --verbose --cov=my_app --ignore=tests_unittest/ --ignore=tests/test_my_app_browser.py
