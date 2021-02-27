@@ -15,7 +15,7 @@ class TestBase(LiveServerTestCase):
 
     def create_app(self):
         app = create_app(config.TestingConfig)
-        app.config['LIVESERVER_PORT'] = 0
+        app.config['LIVESERVER_PORT'] = 8349
         return app
 
     def setUp(self):
