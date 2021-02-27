@@ -34,7 +34,7 @@ jobs:
     - name: Test with unittest
       run: |
         python -m unittest discover tests_unittest
-        coverage report -m
+        coverage report -m --omit=tests/
     - name: Test with pytest (excluding Selenium)
       run: |
         pytest --verbose --cov=my_app --ignore=tests_unittest/ --ignore=tests/test_my_app_browser.py
