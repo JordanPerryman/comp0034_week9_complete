@@ -1,5 +1,5 @@
-from pathlib import Path
-import pandas as pd
+# Adapted from https://scotch.io/tutorials/test-a-flask-app-with-selenium-webdriver-part-1 and part 2
+
 import requests
 from flask import url_for
 from flask_testing import LiveServerTestCase
@@ -9,24 +9,19 @@ from my_app import db, create_app, config
 
 
 class TestBase(LiveServerTestCase):
+    """
+    Base test class for the selenium tests
+    """
 
     def create_app(self):
         app = create_app(config.TestingConfig)
-        # Default port is 5000 which would conflict with Flask
-        app.config['LIVESERVER_PORT'] = 8943
+        app.config['LIVESERVER_PORT'] = 0
         return app
 
     def setUp(self):
         """ Creates the chrome driver and adds tables to the database plus the country data """
         self.driver = webdriver.Chrome()
         self.driver.get(self.get_server_url())
-        db.create_all()
-        # Add the local authority data to the database (this is a workaround you don't need this for your coursework!)
-        csv_file = Path(__file__).parent.parent.joinpath("data/household_recycling.csv")
-        df = pd.read_csv(csv_file, usecols=['Code', 'Area'])
-        df.drop_duplicates(inplace=True)
-        df.set_index('Code', inplace=True)
-        df.to_sql('area', db.engine, if_exists='replace')
 
     def tearDown(self):
         """ Quit the webriver and drop tables from database """
@@ -35,7 +30,6 @@ class TestBase(LiveServerTestCase):
 
     def test_server_is_up_and_running(self):
         response = requests.get(self.get_server_url())
-        # response = urllib2.urlopen(self.get_server_url()) # urllib2 no longer available to install
         self.assertEqual(response.status_code, 200)
 
 
@@ -71,5 +65,5 @@ class TestRegistration(TestBase):
         self.assertIn(url_for('main.index'), self.driver.current_url)
 
         # Assert success message is flashed on the index page
-        message = self.driver.find_element_by_class_name("alert list-unstyled").find_element_by_tag_name("li").text
+        message = self.driver.find_element_by_id("messages").find_element_by_tag_name("li").text
         self.assertIn(f"Hello, {first_name} {last_name}. You are signed up.", message)

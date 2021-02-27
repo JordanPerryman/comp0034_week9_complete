@@ -32,11 +32,7 @@ def create_app(config_classname):
         from my_app.models import User, Profile, Area
         db.create_all()
 
-        # Uncomment the following if you want to experiment with reflection
-        # db.Model.metadata.reflect(bind=db.engine)
-
         # Add the local authority data to the database (this is a workaround you don't need this for your coursework!)
-        from flask import current_app
         data_path = app.config['DATA_PATH']
         csv_file = Path(data_path).joinpath('household_recycling.csv')
         la_data = pd.read_csv(csv_file, usecols=['Code', 'Area'])

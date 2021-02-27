@@ -14,7 +14,7 @@
     {# Displays flashed messages on a page #}
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <ul class="list-unstyled">
+            <ul id="messages" class="list-unstyled">
                 {% for message in messages %}
                     <li class="alert alert-primary" role="alert">{{ message }}</li>
                 {% endfor %}

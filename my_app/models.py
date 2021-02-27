@@ -5,8 +5,6 @@ from my_app import db
 
 
 class User(UserMixin, db.Model):
-    # Uncomment the following line and remove all the field definitions if you want to experiment with
-    # reflection
     # __table__ = db.Model.metadata.tables['user']
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)

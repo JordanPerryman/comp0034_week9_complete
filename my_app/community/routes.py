@@ -64,10 +64,10 @@ def update_profile():
     return render_template('profile.html', form=form)
 
 
-@community_bp.route('/display_profiles', methods=['POST', 'GET'])
+@community_bp.route('/display_profiles', methods=['POST', 'GET'], defaults={'username': None})
 @community_bp.route('/display_profiles/<username>/', methods=['POST', 'GET'])
 @login_required
-def display_profiles(username=None):
+def display_profiles(username):
     results = None
     if username is None:
         if request.method == 'POST':
@@ -83,6 +83,7 @@ def display_profiles(username=None):
         return redirect(url_for("community.index"))
     urls = []
     for result in results:
-        url = photos.url(result.photo)
-        urls.append(url)
+        if result.photo:
+            url = photos.url(result.photo)
+            urls.append(url)
     return render_template('display_profile.html', profiles=zip(results, urls))
