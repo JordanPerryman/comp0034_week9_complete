@@ -33,8 +33,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with unittest
       run: |
-        python -m unittest discover tests_unittest
-        coverage report -m --omit=tests/
+        python coverage -m unittest discover tests_unittest
     - name: Test with pytest (excluding Selenium)
       run: |
         pytest --verbose --cov=my_app --ignore=tests_unittest/ --ignore=tests/test_my_app_browser.py
