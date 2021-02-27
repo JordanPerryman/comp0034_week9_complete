@@ -40,3 +40,6 @@ jobs:
         python3 app.py
         sleep 5
         pytest --verbose tests/test_my_app_browser.py
+    - name: Test with unittest
+      run: |
+        python -m unittest discover tests_unittest
