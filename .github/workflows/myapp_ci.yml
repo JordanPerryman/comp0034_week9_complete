@@ -37,9 +37,9 @@ jobs:
     - name: Test with pytest (excluding Selenium)
       run: |
         pytest --verbose --cov=my_app --ignore=tests_unittest/ --ignore=tests/test_my_app_browser.py
-    - name: Test with pytest (Selenium)
-      working-directory: my_app
-      run: |    
-        python3 app.py
-        sleep 5
-        pytest --verbose tests/test_my_app_browser.py
+#    - name: Test with pytest (Selenium)
+#      working-directory: my_app
+#      run: |    
+#        python3 app.py
+#        sleep 5
+#        pytest --verbose tests/test_my_app_browser.py
